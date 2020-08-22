@@ -38,7 +38,7 @@ total_steps_per_day <- activity %>% group_by(date) %>%
       ungroup()
 
 ggplot(total_steps_per_day, aes(total)) +
-      geom_histogram(bins = 5)+
+      geom_histogram(bins = 5, fill = "blue")+
       labs(x="Steps", 
            y="Frequency",
            title = "Total Steps per Day")
@@ -104,7 +104,7 @@ total_steps_fill_per_day <- activity_clean %>% group_by(date) %>%
       ungroup()
 
 ggplot(total_steps_fill_per_day, aes(total)) +
-      geom_histogram(bins = 5)+
+      geom_histogram(bins = 5, fill = "blue")+
       labs(x="Steps", 
            y="Frequency",
            title = "Total Steps per Day with imputed missing values")
@@ -116,7 +116,26 @@ kable(mean_med_fill, caption = 'The mean and median of the total number of steps
 ```
 
 
-we can observe that imputing the missing data with the proposed strategy has an impact on the total daily number of steps, where steps with moderate values have a higher frequency values (histogram is more centralized), howevere there is no impact on the central measures, i.e. mean and median.
+we can observe that imputing the missing data with the proposed strategy has an impact on the total daily number of steps, where steps with moderate values have a higher frequency values (histogram is more centralized as shown below in the graph), howevere there is no impact on the central measures, i.e. mean and median.
+
+
+
+
+
+```{r histogram_comparison, echo=F}
+total_steps_fill_per_day$type <- "Imputed Data"
+total_steps_per_day$type <- "Without NA's Data"
+histogram_data <- rbind(total_steps_fill_per_day, total_steps_per_day)
+
+ggplot(histogram_data, aes(total,fill=type)) +
+      geom_histogram(bins = 5, alpha=0.7)+
+      facet_wrap(~type)+
+      labs(x="Steps", 
+           y="Frequency",
+           title = "Total Steps per Day with imputed missing values")+
+      theme(legend.position="none") 
+
+```
 
 
 
